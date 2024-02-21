@@ -2,6 +2,36 @@
 
 This Snowflake Native Application sample demonstrates how a ChairLift manufacture can use native apps to share data with their consumers, analyze equipment data collected on the consumer side, and generate warnings based on such analysis.
 
+## Journal
+
+Here's a journal to installing and running this application.
+
+```shell
+$ brew tap snowflake-labs/snowcli
+$ brew install snowcli
+$ chmod 0600 "${HOME}/Library/Application Support/snowflake/config.toml"
+$ snow connection add
+Name for this connection: default
+Snowflake account name: <account_locator>
+Snowflake username: <username>
+Snowflake password [optional]: <password>
+Role for the connection [optional]: accountadmin
+Warehouse for the connection [optional]: default_warehouse
+$ export SNOWFLAKE_DEFAULT_CONNECTION_NAME=default
+$ snow connection test
+$ snow sql -f prepare/provider-role.sql
+$ snow sql -f prepare/consumer-roles.sql
+$ snow sql --role chairlift_provider -f prepare/provider-data.sql
+$ snow sql --role chairlift_admin -f prepare/consumer-data.sql
+$ snow app run
+```
+
+When done, do the following:
+
+```shell
+$ snow app teardown
+```
+
 ## Directory structure
 
 - `prepare/`: scripts to prepare the development and test accounts (roles, data)
